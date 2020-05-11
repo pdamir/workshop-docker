@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  namespace: test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+        - name: api
+          image: ministryofprogramming/docker-workshop
+          imagePullPolicy: Always
+          ports:
+           - containerPort: 8080
+          resources:
+            limits:
+              cpu: 600m
+              memory: 800Mi
+            requests:
+              cpu: 200m
+              memory: 400Mi
