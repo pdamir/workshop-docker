@@ -1,0 +1,23 @@
+steps:
+# Build the container image
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/perceptive-map-276906/api:$SHORT_SHA', '.']
+# Push the container image to Container Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/perceptive-map-276906/api:$SHORT_SHA']
+# deploy container image to GKE
+#step 3
+- name: 'gcr.io/cloud-builders/kubectl'
+  args: [
+   'set', 
+   'image', 
+   'deployment', 
+   'api', 
+   '--namespace',
+   'default',
+   'api=gcr.io/perceptive-map-276906/api:$SHORT_SHA'
+  ]
+  env:
+  - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-b'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=docker-workshop'
+  - 'CLOUDSDK_CORE_PROJECT=perceptive-map-276906'
