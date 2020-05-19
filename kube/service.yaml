@@ -2,7 +2,6 @@ kind: Service
 apiVersion: v1
 metadata:
   name: api
-  namespace: test
 spec:
   type: NodePort
   selector:
